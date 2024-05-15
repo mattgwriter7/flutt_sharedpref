@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 
 //  classes
 import '../classes/Config.dart';
+import '../classes/Cookies.dart';
 import '../classes/Utils.dart';
 import '../providers/Count.dart';
 
@@ -29,7 +30,7 @@ class _Start_PageState extends State<Start_Page> {
     Utils.log( filename, 'initState()' );
     WidgetsBinding.instance.addPostFrameCallback((_) => _addPostFrameCallbackTriggered(context));
 
-    //  setupApp();
+    setupApp();
   }
 
   @override
@@ -42,6 +43,24 @@ class _Start_PageState extends State<Start_Page> {
   void _buildTriggered() {
     Utils.log( filename, '_buildTriggered()');
   }
+
+  void setupApp() async {
+    if ( !Config.app_ready ) {
+    
+      //  cookie stuff
+      Cookies.getStr('today').then((value){
+        Utils.log( filename, value );
+        Cookies.setStr('today', 'is ok!');
+      });
+      Cookies.getNum( 'run_count' ).then((value){
+        Utils.log( filename, value.toString() );
+        value++;
+        Cookies.setNum( 'run_count', value );
+      });      
+      
+    }
+  }  
+
 
   // addPostFrameCallback" is called after build completed 
   void _addPostFrameCallbackTriggered( context ) {
@@ -78,17 +97,24 @@ class _Start_PageState extends State<Start_Page> {
                       Navigator.of(context).pushNamed('End_Page');         
                       return;
                     },
-                  ),                
+                  ),    
+                  ElevatedButton(
+                    child: const Text( 'Reset' ),
+                    onPressed: () {
+                      Cookies.reset();         
+                      return;
+                    },
+                  ),  
+                  ElevatedButton(
+                    child: const Text( 'Show Vals' ),
+                    onPressed: () {
+                      Cookies.showValues();         
+                      return;
+                    },
+                  ),                                                  
               ],
             ),  
           ),
-          floatingActionButton: FloatingActionButton(
-            onPressed: () {
-              //addFruit( context );
-              context.read<Count>().increment();
-            },
-            child: const Icon(Icons.add, size: 32),
-          ),          
         ),
       ),
     );

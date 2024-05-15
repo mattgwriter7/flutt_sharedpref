@@ -19,5 +19,8 @@ class Config {
 
   //  CUSTOM STUFF! (from here on this is stuff unique to this App)
   //  ... nuthin' here yet
+  
+  static bool app_ready = false;
+  static bool first_run = true;
 
 }
