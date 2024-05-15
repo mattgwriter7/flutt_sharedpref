@@ -19,6 +19,15 @@ class Cookies {
     return str == null ? 'nada' : str;
   }     
 
+  //  String Array Manipulation
+  static Future setList(String key, List<String> value) async {
+    await _preferences.setStringList( key, value );
+  }  
+  static  Future<List<String>> getList( String key ) async {
+    final str_list = _preferences.getStringList( key );
+    return str_list == null ? [] : str_list;
+  } 
+
   //  Numeric Manipulation
   static Future setNum(String key, int num) async {
     await _preferences.setInt( key, num );
@@ -31,15 +40,18 @@ class Cookies {
 
   //  Other stuff
   static Future reset() async {
-    await _preferences.setString( 'today', '' );
-    await _preferences.setInt( 'run_count', 0 );
+    await _preferences.remove('today');
+    await _preferences.remove('run_count');
+    await _preferences.remove('app');
+    Utils.log( filename, 'reset()');
+    return;
   } 
 
   static  Future<void> showValues() async {
-    //final today = await _preferences.getString( 'today' );
-    final run_count = await _preferences.getInt( 'run_count' );
-    //Utils.log( filename, '$today - \n ${ run_count.toString() }');
-    Utils.log( filename, '${ run_count.toString() }');
+    String values = '';
+    values =  await _preferences.getStringList( 'app' ).toString() + '\n';
+    Utils.log( filename, 'showValues() -> ${ values }');
+    return;
   }    
 
 }

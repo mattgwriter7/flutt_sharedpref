@@ -57,7 +57,15 @@ class _Start_PageState extends State<Start_Page> {
         value++;
         Cookies.setNum( 'run_count', value );
       });      
-      
+      //  app cookie 
+
+      List<String> App = [
+        'apple','12/25/2024','true'
+      ];
+      Cookies.getList('app').then((value){
+        Utils.log( filename, value.toString() );
+        Cookies.setList('app', App );
+      });
     }
   }  
 
