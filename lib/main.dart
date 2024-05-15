@@ -10,13 +10,16 @@ import '../classes/Utils.dart';
 //  pages
 import './pages/Start_Page.dart';
 import './pages/End_Page.dart';
-import 'providers/Count.dart';
+import './classes/Cookies.dart';
+import './providers/Count.dart';
 
 //  This code is literally from the "flutter create" boilerplate,
 //  but I removed the counter app (and kept the underlying structure),
 //  and some unecessary comments and variables...
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Cookies.init();
   runApp( MultiProvider (
   providers: [ ChangeNotifierProvider(create: (_) => Count()),],
   child: MyApp()) );

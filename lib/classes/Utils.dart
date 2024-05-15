@@ -73,5 +73,48 @@ class Utils {
     //  'Start_Page.dart',
   ];
 
+  //  fixDanglingComma() takes a String and
+  //  chops off any dangling ", " from it.
+  //  If the string is empty, or does not end
+  //  with a dangling comma, it will return
+  //  the same string that was passed.
+  static String fixDanglingComma( String str ) {
+    String  return_str = '';
+    List<String> pieces = [];
+    int num = str.length;
+    //  first check length ( needs to be greater than 2 )
+    if ( num < 3 ) {
+      Utils.log( filename, 'fixDanglingComma() did nothing');
+      return str; // return the original string
+    } 
+    else {
+      if ( str.substring(str.length - 2) != ', ') {
+        Utils.log( filename, 'fixDanglingComma() did nothing');
+        return str; // return the original string
+      }
+      else {
+        //  now split on commas
+        pieces = str.split(', ');
+        num = pieces.length;
+        //  if there are more than 1 piece, git rid of the last one
+        if ( num > 1 ) {
+          for ( int i = 0; i < num; i++ ) {
+            return_str += pieces[i];
+            if ( i < (num -2)) {
+              return_str += ', ';
+            }
+          }  
+        }
+        else {
+          Utils.log( filename, 'fixDanglingComma() did nothing');
+          return str; // return the original string
+        }
+      } 
+    }
+
+    Utils.log( filename, 'fixDanglingComma() returns "$return_str"');
+    return return_str;
+  }  
+
 }
   
